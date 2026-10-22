@@ -1,8 +1,15 @@
-# 鉅潞島 GRNET ISLAND
+# Fish 島 FISH ISLAND
 
-用 3D 六角島嶼介紹鉅潞科技：公司願景、團隊同仁、案件流程、服務項目與作品集。每一座島是一個主題，島上的建築／人物是細項，島與島之間的弧線是協作關係。
+用 3D 六角島嶼介紹 Fish 的前端經歷：關於我、技能、精選作品與 300+ 作品總覽。每一座島是一個主題，島上的建築／人物是細項，島與島之間的弧線是關聯。
 
-目前內容整理自 [鉅潞科技官網](https://www.grnet.com.tw/)，僅供示範，可直接在 `assets/data/data.json` 修改。
+內容有兩份，可以用網址切換：
+
+| 網址 | 資料檔 | 內容 |
+|---|---|---|
+| `/star-island/` | `assets/data/data.json` | 個人作品集（整理自 [fishtoyo.github.io](https://fishtoyo.github.io/)） |
+| `/star-island/?data=grnet` | `assets/data/grnet.json` | 鉅潞科技（整理自 [grnet.com.tw](https://www.grnet.com.tw/)） |
+
+要新增第三份，在 `assets/data/` 放一個 `xxx.json`，網址加 `?data=xxx` 即可。
 
 架構參考 [HEART 政策島](https://puma.taipei/heart-island) 的做法：純靜態網站、原生 ES Modules，用 importmap 載入 Three.js，內容放在 JSON。沒有建置步驟，可以直接放上 GitHub Pages。
 
@@ -23,7 +30,8 @@ php -S localhost:8000      # 或 npx serve .
 index.html                 頁面骨架、importmap
 assets/css/theme.css       色系（只改這個檔就能換色）
 assets/css/ui.css          介面樣式
-assets/data/data.json      內容：主題、細項、標籤、協作關係
+assets/data/data.json      內容：主題、細項、標籤、協作關係（預設）
+assets/data/grnet.json     鉅潞科技版內容（?data=grnet）
 assets/js/app.js           主程式：場景、互動、面板、清單
 assets/js/world.js         六角島、建築造型、協作線
 assets/js/environment.js   水面、燈光、霧
@@ -35,7 +43,8 @@ assets/vendor/three/       Three.js r170（MIT License）
 
 所有顏色（介面 + 3D）都是 `assets/css/theme.css` 裡的 CSS 變數：
 
-- **改現有色系**：直接改 `:root` 那組（預設「鉅潞紅」）的色碼，例如 `--c-primary`。內建色系：鉅潞紅、珊瑚、海洋、夜空。
+- **改現有色系**：直接改對應那組的色碼，例如 `--c-primary`。內建色系：Fish 藍、鉅潞紅、珊瑚、海洋、夜空。
+- **每份資料的預設色系**：在 JSON 的 `meta.theme` 指定（個人版 `fish`、鉅潞版 `grnet`）。使用者按過「色系」按鈕後，會改用他自己選的。
 - **新增色系**：複製一組 `:root[data-theme="ocean"] { … }`，改成新的 id 和顏色，再到 `assets/js/app.js` 最上方的 `THEMES` 加一行 `{ id: "新id", name: "顯示名稱" }`。
 - 網頁右上的「色系」按鈕可以切換，會記住使用者上次的選擇。
 
@@ -44,7 +53,7 @@ assets/vendor/three/       Three.js r170（MIT License）
 | 變數 | 用途 |
 |---|---|
 | `--c-primary` | 主色（按鈕、編號、強調） |
-| `--tag-c / -t / -s / -w` | 四個標籤（公司、團隊、服務、作品）的顏色，也是建築與人物的顏色 |
+| `--tag-1` ～ `--tag-4` | 標籤顏色，也是建築與人物的顏色；JSON 的 tags 用 `"color": "tag-1"` 對應 |
 | `--c-bg-top / --c-bg-bottom / --c-fog` | 背景漸層；`--c-fog` 要和 `--c-bg-bottom` 一致，水面才會自然融入背景 |
 | `--c-water / --c-land / --c-sand / --c-plaza / --c-cliff` | 水面、草地、沙地、廣場、島的側面 |
 | `--c-wall / --c-roof / --c-tree / --c-link` | 牆面、屋頂、樹、協作線 |
@@ -54,25 +63,26 @@ assets/vendor/three/       Three.js r170（MIT License）
 
 ```jsonc
 {
-  "meta":  { "title", "kicker", "headline", "lead", "note" },
-  "tags":  [{ "id": "c", "letter": "C", "name": "公司", "en": "Company" }],
+  "meta":  { "title", "kicker", "headline", "lead", "note", "theme": "fish" },
+  "tags":  [{ "id": "me", "letter": "M", "name": "關於我", "en": "About Me", "color": "tag-1" }],
   "islands": [{
-    "id": "hq",                // 英數字，也會用在網址 #hq
+    "id": "me",                // 英數字，也會用在網址 #me
     "number": 1,
-    "name": "鉅潞總部",
+    "name": "我是 Fish",
     "summary": "一句話說明",
-    "tags": ["c"],              // 第一個標籤決定島的主色
+    "tags": ["me"],             // 第一個標籤決定島的主色
     "axial": [0, 0],            // 六角座標 [q, r]，相鄰位置見下方
     "ground": "plaza",          // land | sand | plaza
     "items": [{
-      "id": "hq-tainan", "name": "名稱", "desc": "說明",
+      "id": "me-fish", "name": "名稱", "desc": "說明",
       "role": "職稱或副標",       // 可省略
-      "url": "https://…",        // 可省略，有填會出現「查看作品」連結
+      "url": "https://…",        // 可省略，有填會出現連結
+      "linkText": "前往 ↗",      // 可省略，連結文字，預設「查看作品 ↗」
       "shape": "hall",          // tower | house | dome | hall | turbine | grove | person | flag
-      "tag": "c"                // 可省略，省略時用島的第一個標籤
+      "tag": "skill"            // 可省略，省略時用島的第一個標籤
     }]
   }],
-  "links": [{ "id": "L1", "from": "hq", "to": ["vision", "leaders"], "text": "關係說明" }]
+  "links": [{ "id": "L1", "from": "me", "to": ["traits", "markup"], "text": "關係說明" }]
 }
 ```
 
@@ -88,5 +98,6 @@ assets/vendor/three/       Three.js r170（MIT License）
 
 ## 網址參數
 
-- `#hq`：開啟時直接選取某座島
+- `#me`：開啟時直接選取某座島
+- `?data=grnet`：改讀 `assets/data/grnet.json`（可和 `#` 一起用，例如 `?data=grnet#design`）
 - `?quality=medium`／`?quality=low`：強制降低畫質（手機預設為 medium）

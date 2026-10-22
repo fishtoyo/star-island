@@ -183,7 +183,7 @@ function slots(n) {
   return out;
 }
 
-export function buildIsland(def, palette) {
+export function buildIsland(def, palette, tagKey) {
   const owner = palette.owner();
   const mat = (key, opts) => palette.mat(key, opts, owner);
   const rng = mulberry(def.number * 9973);
@@ -200,7 +200,7 @@ export function buildIsland(def, palette) {
   body.add(cliff, land);
 
   // 主題色鑲邊
-  const rim = mesh(new THREE.CylinderGeometry(HEX_R * 1.005, HEX_R * 1.005, 0.06, 6, 1, true), mat(`tag-${def.tags[0] || "s"}`, { side: THREE.DoubleSide }), { cast: false });
+  const rim = mesh(new THREE.CylinderGeometry(HEX_R * 1.005, HEX_R * 1.005, 0.06, 6, 1, true), mat(tagKey(def.tags[0]), { side: THREE.DoubleSide }), { cast: false });
   rim.position.y = TOP - 0.03;
   body.add(rim);
 
@@ -208,7 +208,7 @@ export function buildIsland(def, palette) {
   const items = new Map();
   const spots = slots(def.items.length);
   def.items.forEach((item, i) => {
-    const color = `tag-${item.tag || def.tags[0] || "s"}`;
+    const color = tagKey(item.tag || def.tags[0]);
     const build = SHAPES[item.shape] || SHAPES.house;
     const g = build(mat, color, rotors, rng);
     const [x, z] = spots[i];

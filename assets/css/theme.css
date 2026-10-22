@@ -15,11 +15,11 @@
   --c-stone: #c9c2bd;
   --c-green: #0e6135;
 
-  /* 標籤色（對應 data.json 的 tags：c 公司、t 團隊、s 服務、w 作品） */
-  --tag-c: #d6422a;
-  --tag-t: #2f6fc0;
-  --tag-s: #1f7a4d;
-  --tag-w: #e0961f;
+  /* 標籤色：data.json 的 tags 用 "color": "tag-1" 指定 */
+  --tag-1: #d6422a;
+  --tag-2: #2f6fc0;
+  --tag-3: #1f7a4d;
+  --tag-4: #e0961f;
 
   /* 背景與 3D 場景 */
   --c-bg-top: #fafafa;
@@ -62,10 +62,10 @@
   --c-green: #71806a;
 
   /* 標籤色 */
-  --tag-c: #db6a41;
-  --tag-t: #7a6fb0;
-  --tag-s: #3e7c8c;
-  --tag-w: #5e9a6f;
+  --tag-1: #db6a41;
+  --tag-2: #7a6fb0;
+  --tag-3: #3e7c8c;
+  --tag-4: #5e9a6f;
 
   /* 背景與 3D 場景 */
   --c-bg-top: #fff8f4;
@@ -106,10 +106,10 @@
   --c-stone: #b3c2cf;
   --c-green: #4f7f6a;
 
-  --tag-c: #e07a4f;
-  --tag-t: #6a5fc0;
-  --tag-s: #2f6fb0;
-  --tag-w: #3f9a72;
+  --tag-1: #e07a4f;
+  --tag-2: #6a5fc0;
+  --tag-3: #2f6fb0;
+  --tag-4: #3f9a72;
 
   --c-bg-top: #f5f9fc;
   --c-bg-bottom: #d3e4f1;
@@ -148,10 +148,10 @@
   --c-stone: #3b4360;
   --c-green: #5f8c74;
 
-  --tag-c: #f2a65a;
-  --tag-t: #a99bf0;
-  --tag-s: #5fb3c8;
-  --tag-w: #6cc08f;
+  --tag-1: #f2a65a;
+  --tag-2: #a99bf0;
+  --tag-3: #5fb3c8;
+  --tag-4: #6cc08f;
 
   --c-bg-top: #10131f;
   --c-bg-bottom: #1d2236;
@@ -180,4 +180,47 @@
   --ui-accent: var(--c-primary);
   --ui-on-accent: #10131f;
   --ui-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Fish 藍：取自 fishtoyo.github.io 的深藍色調 */
+:root[data-theme="fish"] {
+  --c-primary: #164e81;
+  --c-ink: #0f1c2b;
+  --c-cream: #f5f9fc;
+  --c-yellow: #ffd36b;
+  --c-stone: #b7c3cf;
+  --c-green: #3f7f6e;
+
+  --tag-1: #164e81;
+  --tag-2: #287e94;
+  --tag-3: #e0961f;
+  --tag-4: #d6603a;
+
+  --c-bg-top: #f5f9fc;
+  --c-bg-bottom: #dbe6ef;
+  --c-fog: #dbe6ef;
+  --c-water: #8fb5d0;
+  --c-foam: #f5f9fc;
+  --c-land: #b8cfa6;
+  --c-sand: #e8dcc6;
+  --c-plaza: #d8e0e8;
+  --c-cliff: #8e9cab;
+  --c-wall: #f9fbfd;
+  --c-roof: #164e81;
+  --c-tree: #3f7f6e;
+  --c-trunk: #6b5646;
+  --c-link: #287e94;
+  --light-sky: #f0f6ff;
+  --light-ground: #b7c3cf;
+  --light-sun: #ffffff;
+  --sky-intensity: 1.6;
+  --sun-intensity: 2.3;
+
+  --ui-surface: rgba(249, 251, 253, 0.95);
+  --ui-text: #0f1c2b;
+  --ui-muted: #56677a;
+  --ui-line: rgba(15, 28, 43, 0.12);
+  --ui-accent: var(--c-primary);
+  --ui-on-accent: #ffffff;
+  --ui-shadow: 0 10px 30px rgba(8, 38, 66, 0.14);
 }

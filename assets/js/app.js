@@ -7,6 +7,7 @@ import { buildIsland, buildLink, TOP, HEX_R } from "./world.js";
 
 // 色系清單：id 對應 theme.css 的 [data-theme="id"]
 const THEMES = [
+  { id: "fish", name: "Fish 藍" },
   { id: "grnet", name: "鉅潞紅" },
   { id: "coral", name: "珊瑚" },
   { id: "ocean", name: "海洋" },
@@ -31,16 +32,20 @@ const store = {
   },
 };
 
+const params = new URLSearchParams(location.search);
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const narrow = () => innerWidth <= 800;
-const quality = new URLSearchParams(location.search).get("quality") || (narrow() || /Mobi|Android/i.test(navigator.userAgent) ? "medium" : "high");
+const quality = params.get("quality") || (narrow() || /Mobi|Android/i.test(navigator.userAgent) ? "medium" : "high");
 
 const state = { selected: null, hovered: null, tags: new Set(), query: "", showLinks: false, mode: "map" };
 
+// ?data=grnet 會改讀 assets/data/grnet.json
+const dataName = /^[a-z0-9-]+$/.test(params.get("data") || "") ? params.get("data") : "data";
+
 let data;
 try {
-  data = await fetch("./assets/data/data.json").then((r) => {
-    if (!r.ok) throw Error(`data.json: ${r.status}`);
+  data = await fetch(`./assets/data/${dataName}.json`).then((r) => {
+    if (!r.ok) throw Error(`${dataName}.json: ${r.status}`);
     return r.json();
   });
 } catch (err) {
@@ -63,8 +68,10 @@ function matches(def) {
   return [def.name, def.summary, ...def.items.flatMap((i) => [i.name, i.desc])].join(" ").toLowerCase().includes(q);
 }
 
-const dots = (ids) => `<span class="dots">${ids.map((t) => `<i class="dot" style="--dot:var(--tag-${esc(t)})"></i>`).join("")}</span>`;
-const chip = (t) => `<span class="chip" style="--dot:var(--tag-${esc(t)})"><span class="tag-letter">${esc(tags.get(t)?.letter)}</span>${esc(tags.get(t)?.name)}</span>`;
+// 標籤顏色對應的 CSS 變數名稱（tags 的 color 欄位，預設 tag-<id>）
+const tagKey = (id) => tags.get(id)?.color || `tag-${id}`;
+const dots = (ids) => `<span class="dots">${ids.map((t) => `<i class="dot" style="--dot:var(--${esc(tagKey(t))})"></i>`).join("")}</span>`;
+const chip = (t) => `<span class="chip" style="--dot:var(--${esc(tagKey(t))})"><span class="tag-letter">${esc(tags.get(t)?.letter)}</span>${esc(tags.get(t)?.name)}</span>`;
 
 // ---------- 靜態文字 ----------
 $("#kicker").textContent = data.meta.kicker;
@@ -72,12 +79,14 @@ $("#headline").textContent = data.meta.headline;
 $("#lead").textContent = data.meta.lead;
 $("#note").textContent = data.meta.note || "";
 document.title = data.meta.title;
+// 使用者沒選過色系時，套用資料指定的預設色系
+if (!store.get("star-island-theme") && data.meta.theme) document.documentElement.dataset.theme = data.meta.theme;
 
 // ---------- 標籤篩選 ----------
 $("#tags").innerHTML = data.tags
   .map(
     (t) =>
-      `<button type="button" class="tag" data-tag="${esc(t.id)}" aria-pressed="false" style="--dot:var(--tag-${esc(t.id)})" title="${esc(t.name)} ${esc(t.en)}"><span class="tag-letter">${esc(t.letter)}</span><span class="tag-name">${esc(t.name)}</span></button>`,
+      `<button type="button" class="tag" data-tag="${esc(t.id)}" aria-pressed="false" style="--dot:var(--${esc(tagKey(t.id))})" title="${esc(t.name)} ${esc(t.en)}"><span class="tag-letter">${esc(t.letter)}</span><span class="tag-name">${esc(t.name)}</span></button>`,
   )
   .join("");
 $("#tags").addEventListener("click", (e) => {
@@ -142,7 +151,7 @@ function renderPanel(def) {
       .map(
         (i) =>
           `<li><button type="button" data-item="${esc(i.id)}">${i.role ? `<span class="item-role">${esc(i.role)}</span>` : ""}<strong>${esc(i.name)}${i.tag ? dots([i.tag]) : ""}</strong><span>${esc(i.desc)}</span></button>${
-            i.url ? `<a class="item-link" href="${esc(i.url)}" target="_blank" rel="noopener">查看作品 ↗</a>` : ""
+            i.url ? `<a class="item-link" href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.linkText || "查看作品 ↗")}</a>` : ""
           }</li>`,
       )
       .join("")}</ol>
@@ -314,7 +323,7 @@ try {
 
   islands = new Map();
   for (const def of data.islands) {
-    const isl = buildIsland(def, palette);
+    const isl = buildIsland(def, palette, tagKey);
     const el = document.createElement("button");
     el.type = "button";
     el.className = "label";
