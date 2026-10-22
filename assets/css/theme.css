@@ -1,0 +1,136 @@
+/* =========================================================
+   色系設定：要換顏色只改這個檔案
+   - 介面（HTML）與 3D 場景都讀同一組變數
+   - 新增色系：複製一組 [data-theme="xxx"]，再到 assets/js/app.js 的 THEMES 加上 id 與名稱
+   ========================================================= */
+
+:root,
+:root[data-theme="coral"] {
+  /* 品牌色 */
+  --c-primary: #db6a41;
+  --c-ink: #211d1d;
+  --c-cream: #fff8f4;
+  --c-yellow: #fcea8b;
+  --c-stone: #c5b5a7;
+  --c-green: #71806a;
+
+  /* 標籤色（對應 data.json 的 tags） */
+  --tag-s: #5e9a6f;
+  --tag-t: #7a6fb0;
+  --tag-a: #db6a41;
+  --tag-r: #3e7c8c;
+
+  /* 背景與 3D 場景 */
+  --c-bg-top: #fff8f4;
+  --c-bg-bottom: #f5dfd0;
+  --c-fog: #f5dfd0;
+  --c-water: #9ec8c3;
+  --c-foam: #fff8f4;
+  --c-land: #bccf9c;
+  --c-sand: #e6d2ad;
+  --c-plaza: #ddccb6;
+  --c-cliff: #b8977a;
+  --c-wall: #fff8f4;
+  --c-roof: #db6a41;
+  --c-tree: #71806a;
+  --c-trunk: #8a6a4e;
+  --c-link: #db6a41;
+  --light-sky: #fff3e8;
+  --light-ground: #c5b5a7;
+  --light-sun: #fff1e0;
+  --sky-intensity: 1.6;
+  --sun-intensity: 2.4;
+
+  /* 介面 */
+  --ui-surface: rgba(255, 248, 244, 0.94);
+  --ui-text: #211d1d;
+  --ui-muted: #6f625b;
+  --ui-line: rgba(33, 29, 29, 0.12);
+  --ui-accent: var(--c-primary);
+  --ui-on-accent: #fff8f4;
+  --ui-shadow: 0 10px 30px rgba(33, 29, 29, 0.12);
+}
+
+:root[data-theme="ocean"] {
+  --c-primary: #2f6fb0;
+  --c-ink: #14243a;
+  --c-cream: #f5f9fc;
+  --c-yellow: #ffe28a;
+  --c-stone: #b3c2cf;
+  --c-green: #4f7f6a;
+
+  --tag-s: #3f9a72;
+  --tag-t: #6a5fc0;
+  --tag-a: #e07a4f;
+  --tag-r: #2f6fb0;
+
+  --c-bg-top: #f5f9fc;
+  --c-bg-bottom: #d3e4f1;
+  --c-fog: #d3e4f1;
+  --c-water: #7fb3d6;
+  --c-foam: #f5f9fc;
+  --c-land: #a9cba2;
+  --c-sand: #e9dfc6;
+  --c-plaza: #d4dde6;
+  --c-cliff: #8ea3b6;
+  --c-wall: #f5f9fc;
+  --c-roof: #2f6fb0;
+  --c-tree: #4f7f6a;
+  --c-trunk: #7a6450;
+  --c-link: #2f6fb0;
+  --light-sky: #eef6ff;
+  --light-ground: #b3c2cf;
+  --light-sun: #ffffff;
+  --sky-intensity: 1.6;
+  --sun-intensity: 2.3;
+
+  --ui-surface: rgba(245, 249, 252, 0.94);
+  --ui-text: #14243a;
+  --ui-muted: #55657a;
+  --ui-line: rgba(20, 36, 58, 0.12);
+  --ui-accent: var(--c-primary);
+  --ui-on-accent: #ffffff;
+  --ui-shadow: 0 10px 30px rgba(20, 36, 58, 0.14);
+}
+
+:root[data-theme="night"] {
+  --c-primary: #f2a65a;
+  --c-ink: #f1ece4;
+  --c-cream: #2a3047;
+  --c-yellow: #ffd76a;
+  --c-stone: #3b4360;
+  --c-green: #5f8c74;
+
+  --tag-s: #6cc08f;
+  --tag-t: #a99bf0;
+  --tag-a: #f2a65a;
+  --tag-r: #5fb3c8;
+
+  --c-bg-top: #10131f;
+  --c-bg-bottom: #1d2236;
+  --c-fog: #1d2236;
+  --c-water: #24395a;
+  --c-foam: #6f86ad;
+  --c-land: #4d6b5a;
+  --c-sand: #7a6c58;
+  --c-plaza: #5d6278;
+  --c-cliff: #3b4360;
+  --c-wall: #d9d3c7;
+  --c-roof: #f2a65a;
+  --c-tree: #3f6a55;
+  --c-trunk: #5a4636;
+  --c-link: #ffd76a;
+  --light-sky: #8ea2d8;
+  --light-ground: #20263a;
+  --light-sun: #c9d4ff;
+  --sky-intensity: 1.1;
+  --sun-intensity: 1.2;
+
+  --ui-surface: rgba(24, 28, 44, 0.94);
+  --ui-text: #f1ece4;
+  --ui-muted: #a5abc0;
+  --ui-line: rgba(241, 236, 228, 0.14);
+  --ui-accent: var(--c-primary);
+  --ui-on-accent: #10131f;
+  --ui-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>星島 STAR ISLAND</title>
+    <meta name="description" content="一座島，一個主題。以 3D 六角島嶼呈現主題與主題之間的關係。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="./assets/css/theme.css" />
+    <link rel="stylesheet" href="./assets/css/ui.css" />
+    <script>
+      // 盡早套用上次選的色系，避免畫面閃一下
+      try {
+        const t = localStorage.getItem("star-island-theme");
+        if (t) document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three/build/three.module.js",
+          "three/addons/": "./assets/vendor/three/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./assets/js/app.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">★</span>
+          <div>
+            <p class="brand-kicker" id="kicker">STAR ISLAND</p>
+            <h1 id="headline">一座島，一個主題</h1>
+          </div>
+        </div>
+        <nav class="modes" aria-label="瀏覽模式">
+          <button type="button" class="mode is-on" data-mode="map" aria-pressed="true"><span aria-hidden="true">⬡</span> 全景</button>
+          <button type="button" class="mode" data-mode="list" aria-pressed="false"><span aria-hidden="true">☰</span> 清單</button>
+        </nav>
+      </header>
+
+      <div class="toolbar">
+        <label class="search">
+          <span class="sr-only">搜尋</span>
+          <input id="search" type="search" placeholder="搜尋主題、關鍵字…" autocomplete="off" />
+        </label>
+        <div id="tags" class="tags" role="group" aria-label="標籤篩選"></div>
+        <div class="tools">
+          <button type="button" id="btn-links" class="tool" aria-pressed="false">協作線</button>
+          <button type="button" id="btn-theme" class="tool">色系</button>
+          <button type="button" id="btn-reset" class="tool">重置視角</button>
+        </div>
+      </div>
+
+      <main id="stage"></main>
+
+      <p class="hint" id="hint"><span id="lead">從一個改變開始，看見主題之間的關係。</span> <span class="hint-how">拖曳旋轉・滾輪縮放・點一座島開始探索</span></p>
+      <p class="count" id="count" aria-live="polite"></p>
+
+      <aside id="panel" class="panel" aria-label="主題詳情" hidden>
+        <button type="button" class="panel-close" id="panel-close" aria-label="關閉">✕</button>
+        <div id="panel-body"></div>
+      </aside>
+
+      <section id="list" class="list" aria-label="主題清單" hidden>
+        <div class="list-inner">
+          <p class="list-kicker">THE INDEX</p>
+          <h2>所有主題</h2>
+          <p class="list-note" id="note"></p>
+          <div id="list-grid" class="list-grid"></div>
+        </div>
+      </section>
+
+      <div id="loading" class="loading">
+        <span class="loading-mark" aria-hidden="true">★</span>
+        <p id="loading-text">STAR 正在組合島嶼…</p>
+      </div>
+    </div>
+  </body>
+</html>
