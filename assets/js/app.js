@@ -3,10 +3,11 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
 import { createPalette } from "./palette.js";
 import { createEnvironment } from "./environment.js";
-import { buildIsland, buildLink, TOP } from "./world.js";
+import { buildIsland, buildLink, TOP, HEX_R } from "./world.js";
 
 // 色系清單：id 對應 theme.css 的 [data-theme="id"]
 const THEMES = [
+  { id: "grnet", name: "鉅潞紅" },
   { id: "coral", name: "珊瑚" },
   { id: "ocean", name: "海洋" },
   { id: "night", name: "夜空" },
@@ -138,7 +139,12 @@ function renderPanel(def) {
     <p class="panel-summary">${esc(def.summary)}</p>
     <h3>島上有什麼 <span>${def.items.length}</span></h3>
     <ol class="items">${def.items
-      .map((i) => `<li><button type="button" data-item="${esc(i.id)}"><strong>${esc(i.name)}${i.tag ? dots([i.tag]) : ""}</strong><span>${esc(i.desc)}</span></button></li>`)
+      .map(
+        (i) =>
+          `<li><button type="button" data-item="${esc(i.id)}">${i.role ? `<span class="item-role">${esc(i.role)}</span>` : ""}<strong>${esc(i.name)}${i.tag ? dots([i.tag]) : ""}</strong><span>${esc(i.desc)}</span></button>${
+            i.url ? `<a class="item-link" href="${esc(i.url)}" target="_blank" rel="noopener">查看作品 ↗</a>` : ""
+          }</li>`,
+      )
       .join("")}</ol>
     <h3>協作關係 <span>${rel.length}</span></h3>
     ${
@@ -250,9 +256,15 @@ function overviewPose() {
   const center = new THREE.Vector3();
   islands.forEach((i) => center.add(i.group.position));
   center.divideScalar(islands.size).setY(TOP);
-  const aspect = camera.aspect;
-  const d = aspect < 0.8 ? 1.75 : aspect < 1.3 ? 1.25 : 1;
-  return { target: center, pos: center.clone().add(new THREE.Vector3(0, 21, 27).multiplyScalar(d)) };
+  // 依島群半徑與畫面寬高，算出能放下全部島嶼的鏡頭距離
+  let radius = 0;
+  islands.forEach((i) => (radius = Math.max(radius, i.group.position.clone().setY(TOP).distanceTo(center))));
+  radius += HEX_R;
+  const vfov = THREE.MathUtils.degToRad(camera.fov);
+  const hfov = 2 * Math.atan(Math.tan(vfov / 2) * camera.aspect);
+  const dist = Math.max((radius * 0.92) / Math.sin(hfov / 2), (radius * 0.85) / Math.sin(vfov / 2));
+  controls.maxDistance = Math.max(75, dist * 1.3);
+  return { target: center, pos: center.clone().add(new THREE.Vector3(0, 21, 27).setLength(dist)) };
 }
 
 function focusIsland(isl) {

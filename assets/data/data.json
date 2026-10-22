@@ -1,168 +1,238 @@
 {
   "meta": {
-    "title": "星島 STAR ISLAND",
-    "kicker": "STAR ISLAND",
-    "headline": "一座島，一個主題",
-    "lead": "從一個改變開始，看見主題之間的關係。",
-    "note": "以下為示範資料，請替換成你的內容。"
+    "title": "鉅潞島 GRNET ISLAND",
+    "kicker": "GRNET ISLAND",
+    "headline": "鉅潞科技，一座島一個故事",
+    "lead": "從團隊到作品，看見鉅潞如何一起完成每個網站。",
+    "note": "內容整理自鉅潞科技官網（grnet.com.tw），僅供示範。"
   },
   "tags": [
-    { "id": "s", "letter": "S", "name": "永續", "en": "Sustainable" },
-    { "id": "t", "letter": "T", "name": "科技", "en": "Tech" },
-    { "id": "a", "letter": "A", "name": "共融", "en": "Accessible" },
-    { "id": "r", "letter": "R", "name": "韌性", "en": "Resilient" }
+    { "id": "c", "letter": "C", "name": "公司", "en": "Company" },
+    { "id": "t", "letter": "T", "name": "團隊", "en": "Team" },
+    { "id": "s", "letter": "S", "name": "服務", "en": "Service" },
+    { "id": "w", "letter": "W", "name": "作品", "en": "Works" }
   ],
   "islands": [
     {
-      "id": "hub",
+      "id": "hq",
       "number": 1,
-      "name": "市民中心",
-      "summary": "所有服務的入口，讓市民一次就把事情辦好。",
-      "tags": ["t", "a"],
+      "name": "鉅潞總部",
+      "summary": "2005 年成立的客製化網頁設計與網站系統開發公司，台南總部、台北設有據點，服務全台。",
+      "tags": ["c"],
       "axial": [0, 0],
       "ground": "plaza",
       "items": [
-        { "id": "hub-desk", "name": "一站式服務櫃台", "desc": "常用申辦集中在同一個窗口，不必在各單位之間奔波。", "shape": "hall" },
-        { "id": "hub-card", "name": "數位市民卡", "desc": "一張卡整合身分、借書、乘車與場館預約。", "shape": "tower" },
-        { "id": "hub-voice", "name": "市民提案平台", "desc": "提案達到門檻即排入審議，並公開回覆進度。", "shape": "dome", "tag": "a" }
+        { "id": "hq-tainan", "name": "台南總部", "role": "Headquarters", "desc": "台南市永康區，公司起點與主要團隊所在地。", "shape": "hall" },
+        { "id": "hq-taipei", "name": "台北據點", "role": "Taipei Office", "desc": "台北市內湖區，就近服務北部客戶。", "shape": "tower" },
+        { "id": "hq-projects", "name": "4,000+ 件網站專案", "role": "Since 2005", "desc": "累計完成超過四千件網站專案，官網精選展示約 700 件。", "shape": "dome" },
+        { "id": "hq-team", "name": "近 30 位工作夥伴", "role": "In-house Team", "desc": "設計、前端、後端與專案管理都由自有團隊負責。", "shape": "grove" }
       ]
     },
     {
-      "id": "park",
+      "id": "vision",
       "number": 2,
-      "name": "綠色公園",
-      "summary": "把零碎空地變成步行五分鐘就能抵達的綠地。",
-      "tags": ["s"],
+      "name": "公司願景",
+      "summary": "不一定要成為第一，但始終堅持精進，讓每一次都比上一次更好。",
+      "tags": ["c"],
       "axial": [1, -1],
       "ground": "land",
       "items": [
-        { "id": "park-pocket", "name": "口袋公園", "desc": "盤點閒置空地，改造成社區小型綠地。", "shape": "grove" },
-        { "id": "park-rain", "name": "雨水花園", "desc": "下凹式綠地在大雨時暫存雨水，減輕排水負擔。", "shape": "grove", "tag": "r" },
-        { "id": "park-kiosk", "name": "自然教室", "desc": "假日開放親子自然觀察課程。", "shape": "house" }
+        { "id": "vision-team", "name": "團隊合作", "role": "Teamwork", "desc": "每個階段由不同專業負責，環環相扣、發揮各部門所長。", "shape": "dome" },
+        { "id": "vision-quality", "name": "品質至上", "role": "Quality", "desc": "全面檢測瀏覽器相容性，重視每一個執行細節。", "shape": "tower" },
+        { "id": "vision-service", "name": "服務第一", "role": "Service", "desc": "超過半數訂單來自客戶推薦與再次委託。", "shape": "house" },
+        { "id": "vision-research", "name": "創新研究", "role": "Innovation", "desc": "持續精進設計與技術，提升品牌在搜尋引擎與 AI 搜尋中的能見度。", "shape": "turbine" }
       ]
     },
     {
-      "id": "transit",
+      "id": "leaders",
       "number": 3,
-      "name": "智慧交通",
-      "summary": "用即時資料讓通勤更準時、更安全。",
-      "tags": ["t", "r"],
-      "axial": [1, 0],
-      "ground": "plaza",
-      "items": [
-        { "id": "transit-bus", "name": "公車即時資訊", "desc": "站牌與 App 顯示到站時間與車上擁擠程度。", "shape": "tower" },
-        { "id": "transit-bike", "name": "共享單車站", "desc": "捷運站周邊加密站點，補足最後一哩路。", "shape": "house", "tag": "s" },
-        { "id": "transit-signal", "name": "智慧號誌", "desc": "依車流與行人調整秒數，路口優先保障行人。", "shape": "tower" },
-        { "id": "transit-ev", "name": "電動公車調度站", "desc": "逐年汰換柴油公車，集中管理充電排程。", "shape": "hall", "tag": "s" }
-      ]
-    },
-    {
-      "id": "library",
-      "number": 4,
-      "name": "學習圖書館",
-      "summary": "不只借書，也是每個年齡層的學習基地。",
-      "tags": ["t", "a"],
-      "axial": [0, 1],
-      "ground": "land",
-      "items": [
-        { "id": "library-maker", "name": "創客教室", "desc": "提供 3D 列印與電子實作設備，免費預約使用。", "shape": "hall", "tag": "t" },
-        { "id": "library-night", "name": "夜間自習室", "desc": "延長開放到深夜，給需要安靜空間的學生與上班族。", "shape": "tower" },
-        { "id": "library-elder", "name": "樂齡數位課", "desc": "教長輩使用手機與線上服務。", "shape": "dome", "tag": "a" }
-      ]
-    },
-    {
-      "id": "care",
-      "number": 5,
-      "name": "長照社區",
-      "summary": "讓長輩在熟悉的街區安心變老。",
-      "tags": ["a"],
-      "axial": [-1, 1],
-      "ground": "land",
-      "items": [
-        { "id": "care-day", "name": "日照中心", "desc": "每個行政區至少一處，白天照顧、晚上回家。", "shape": "hall" },
-        { "id": "care-meal", "name": "共餐食堂", "desc": "社區據點提供平價午餐，也是長輩交流的地方。", "shape": "house" },
-        { "id": "care-clinic", "name": "社區診所", "desc": "慢性病追蹤與居家醫療的在地窗口。", "shape": "dome" },
-        { "id": "care-garden", "name": "療癒花園", "desc": "結合園藝治療的戶外活動空間。", "shape": "grove", "tag": "s" }
-      ]
-    },
-    {
-      "id": "safety",
-      "number": 6,
-      "name": "防災中心",
-      "summary": "平時演練、災時應變，讓每個社區都有準備。",
-      "tags": ["r"],
-      "axial": [-1, 0],
-      "ground": "plaza",
-      "items": [
-        { "id": "safety-shelter", "name": "避難據點", "desc": "學校與活動中心標示為避難所，定期檢查物資。", "shape": "dome" },
-        { "id": "safety-depot", "name": "防災倉庫", "desc": "儲備飲水、發電機與救援器材。", "shape": "hall" },
-        { "id": "safety-alert", "name": "預警塔", "desc": "結合感測器與廣播，提早發布淹水與地震警訊。", "shape": "tower", "tag": "t" }
-      ]
-    },
-    {
-      "id": "startup",
-      "number": 7,
-      "name": "青創基地",
-      "summary": "給年輕人一個可以試錯、可以起步的地方。",
-      "tags": ["t"],
+      "name": "經營團隊",
+      "summary": "帶領鉅潞走過二十餘年，從草創的幾位成員成長為近三十人的專業團隊。",
+      "tags": ["t", "c"],
       "axial": [0, -1],
       "ground": "plaza",
       "items": [
-        { "id": "startup-cowork", "name": "共享辦公", "desc": "低租金工作空間，按月租用。", "shape": "tower" },
-        { "id": "startup-accel", "name": "創業加速器", "desc": "媒合業師、投資人與市府場域實證。", "shape": "tower" },
-        { "id": "startup-show", "name": "成果展示廳", "desc": "每季舉辦公開發表會。", "shape": "dome", "tag": "a" }
+        { "id": "p-alex", "name": "ALEX", "role": "General Manager", "desc": "「觀念決定命運。」", "shape": "person" },
+        { "id": "p-brian", "name": "BRIAN", "role": "Vice General Manager", "desc": "「窮究設計的真理，細心的培育客戶所託，打造出足以傳世的作品。」", "shape": "person" },
+        { "id": "leaders-office", "name": "經營會議室", "role": "Office", "desc": "規劃公司方向，並統籌客服、企劃、設計、程式四個部門。", "shape": "hall", "tag": "c" }
       ]
     },
     {
-      "id": "energy",
-      "number": 8,
-      "name": "再生能源",
-      "summary": "把屋頂、河岸與空地變成城市的發電廠。",
-      "tags": ["s", "r"],
-      "axial": [2, -1],
-      "ground": "sand",
-      "items": [
-        { "id": "energy-roof", "name": "太陽能屋頂", "desc": "公有建物屋頂優先設置光電板。", "shape": "hall" },
-        { "id": "energy-wind", "name": "社區風機", "desc": "小型風機示範點，搭配環境教育。", "shape": "turbine" },
-        { "id": "energy-store", "name": "儲能站", "desc": "尖峰時段放電，停電時支援避難據點。", "shape": "house", "tag": "r" }
-      ]
-    },
-    {
-      "id": "river",
-      "number": 9,
-      "name": "河濱運動",
-      "summary": "讓河岸成為全年齡都能使用的運動場。",
-      "tags": ["s", "a"],
-      "axial": [-2, 1],
+      "id": "cs",
+      "number": 4,
+      "name": "客服部",
+      "summary": "客戶的第一個窗口，從諮詢、簽約到上線後的支援都在這裡。",
+      "tags": ["t", "s"],
+      "axial": [-1, 0],
       "ground": "land",
       "items": [
-        { "id": "river-court", "name": "河濱球場", "desc": "增設夜間照明與無障礙通道。", "shape": "hall" },
-        { "id": "river-walk", "name": "親水步道", "desc": "串連各段河岸，散步不再中斷。", "shape": "grove" },
-        { "id": "river-bike", "name": "自行車道", "desc": "補齊斷點並設置休息站。", "shape": "house" }
+        { "id": "p-mandy", "name": "MANDY", "role": "Customer Service Manager", "desc": "「投入我們的熱情與專業服務；全力以赴做到最好的品質。」", "shape": "person" },
+        { "id": "p-clare", "name": "CLARE", "role": "Customer Service Executive", "desc": "「在這個無國界的邊境中有緣相識，給我們個機會為您編織理想。」", "shape": "person" },
+        { "id": "p-cmi", "name": "CMI", "role": "Customer Service Executive", "desc": "「設計是一種膠水，將這些不同的價值黏合在一起。」", "shape": "person" },
+        { "id": "cs-desk", "name": "諮詢服務台", "role": "Contact", "desc": "免付費專線與線上諮詢表單，接收全台各地的需求。", "shape": "house", "tag": "s" }
       ]
     },
     {
-      "id": "market",
+      "id": "planning",
+      "number": 5,
+      "name": "企劃部",
+      "summary": "為每個專案策畫分析，整理需求、規劃網站架構並撰寫執行企劃書。",
+      "tags": ["t"],
+      "axial": [-1, 1],
+      "ground": "land",
+      "items": [
+        { "id": "p-mina", "name": "MINA", "role": "Planning・GA 認證", "desc": "「我們為每個專案策畫分析，勾勒出最貼近客戶需求的網站藍圖。」", "shape": "person" },
+        { "id": "p-emi", "name": "EMI", "role": "Planning・GA 認證", "desc": "「用心傾聽每一個需求，解決每一個問題。」", "shape": "person" },
+        { "id": "p-rimi", "name": "RIMI", "role": "Planning・GA 認證", "desc": "「我們重視並且改善使用者的網站體驗，這才是最完整的設計思考。」", "shape": "person" },
+        { "id": "p-mei", "name": "MEI", "role": "Planning・GA 認證", "desc": "「專業，就是用對方聽得懂的話，去告訴他不懂的事情。」", "shape": "person" },
+        { "id": "p-ivy", "name": "IVY", "role": "Planning", "desc": "「做好每一件小事，專案才能更順利往前走。」", "shape": "person" }
+      ]
+    },
+    {
+      "id": "design",
+      "number": 6,
+      "name": "設計部",
+      "summary": "負責視覺風格、版型初稿、內頁切版與動態效果，讓網站好看也好用。",
+      "tags": ["t", "w"],
+      "axial": [0, 1],
+      "ground": "land",
+      "items": [
+        { "id": "p-dora", "name": "DORA", "role": "Design", "desc": "「網頁設計更是要讓人駐足觀賞的藝術。」", "shape": "person" },
+        { "id": "p-pam", "name": "PAM", "role": "Design", "desc": "「將複雜概念轉化為人性化易懂語言。」", "shape": "person" },
+        { "id": "p-fish", "name": "FISH", "role": "Design", "desc": "「優秀的設計能打破溝通的障礙，也縮短了你我之間的距離。」", "shape": "person" },
+        { "id": "p-rain", "name": "RAIN", "role": "Design", "desc": "「讓使用者感受好用之外進而愛用！」", "shape": "person" },
+        { "id": "p-yun", "name": "YUN", "role": "Design", "desc": "「用設計解決問題，用體驗拉近距離。」", "shape": "person" },
+        { "id": "p-meggie", "name": "MEGGIE", "role": "Design", "desc": "「形狀、樣式、結構、色彩，在我手中交織結合成你的專屬形象。」", "shape": "person" }
+      ]
+    },
+    {
+      "id": "dev",
+      "number": 7,
+      "name": "程式部",
+      "summary": "開發網站功能與後台系統，整合資料庫、金流與第三方系統。",
+      "tags": ["t", "s"],
+      "axial": [1, 0],
+      "ground": "plaza",
+      "items": [
+        { "id": "p-rubio", "name": "Rubio", "role": "Program", "desc": "「程式好比戲劇腳本，程式設計師則是編劇。」", "shape": "person" },
+        { "id": "p-formos", "name": "FORMOS", "role": "Program", "desc": "「想像力比知識更重要。」", "shape": "person" },
+        { "id": "p-yue", "name": "YUE", "role": "Program", "desc": "「一字一句，編織驚喜。」", "shape": "person" },
+        { "id": "p-yujie", "name": "郁傑", "role": "Program", "desc": "「一天比一天努力，一天比一天成長。」", "shape": "person" },
+        { "id": "p-jan", "name": "JAN", "role": "Program", "desc": "「對未知保持好奇，對成長持續投入。」", "shape": "person" },
+        { "id": "p-ron", "name": "RON", "role": "Program", "desc": "「體驗新事物，創造新視野。」", "shape": "person" },
+        { "id": "p-yanfang", "name": "Yan Fang", "role": "Program", "desc": "程式部夥伴。", "shape": "person" },
+        { "id": "p-alice", "name": "ALICE", "role": "Program", "desc": "程式部夥伴。", "shape": "person" }
+      ]
+    },
+    {
+      "id": "process",
+      "number": 8,
+      "name": "案件流程",
+      "summary": "七個階段，每一步都經客戶確認後才進入下一步；一般形象網站約 3 至 6 週。",
+      "tags": ["s", "t"],
+      "axial": [-2, 1],
+      "ground": "sand",
+      "items": [
+        { "id": "step-1", "name": "01 簽約", "role": "Signed", "desc": "確認合作內容、製作項目與時程，專案正式啟動。", "shape": "flag" },
+        { "id": "step-2", "name": "02 企劃", "role": "Planning", "desc": "整理需求、規劃網站架構並製作執行企劃書。", "shape": "flag" },
+        { "id": "step-3", "name": "03 資料準備", "role": "Preparation", "desc": "客戶提供品牌背景、網站目標與喜歡的參考網站。", "shape": "flag" },
+        { "id": "step-4", "name": "04 初稿製作", "role": "First Draft", "desc": "視覺設計師設計主要頁面初稿，客戶提供修改建議。", "shape": "flag" },
+        { "id": "step-5", "name": "05 內頁切版・動態效果", "role": "CSS / Animation", "desc": "延伸所有頁面設計，加入動態效果與 RWD。", "shape": "flag" },
+        { "id": "step-6", "name": "06 程式設計", "role": "PHP / MySQL", "desc": "開發功能與後台系統，整合資料庫或第三方系統。", "shape": "flag" },
+        { "id": "step-7", "name": "07 結案上線", "role": "Online", "desc": "網站正式上線，並提供程式碼 bug 永久保固。", "shape": "flag" }
+      ]
+    },
+    {
+      "id": "services",
+      "number": 9,
+      "name": "服務項目",
+      "summary": "從企業形象網站、電商購物網站到系統整合與 AI 搜尋優化。",
+      "tags": ["s"],
+      "axial": [2, -1],
+      "ground": "plaza",
+      "items": [
+        { "id": "svc-custom", "name": "客製化網頁設計", "role": "Custom Web Design", "desc": "依企業需求從零規劃架構、視覺與功能，並提供自有 CMS。", "shape": "hall" },
+        { "id": "svc-shop", "name": "電商購物網站", "role": "E-commerce", "desc": "購物車、會員系統、金流與超商物流、電子發票串接。", "shape": "house" },
+        { "id": "svc-integration", "name": "金流與系統整合", "role": "Integration", "desc": "金流串接，以及 ERP、CRM、進銷存、第三方 API 整合。", "shape": "tower" },
+        { "id": "svc-ai", "name": "AI 搜尋優化", "role": "SEO / GEO / AEO", "desc": "建站時就納入 SEO 與 AI 搜尋架構，包含結構化資料與常見問答。", "shape": "dome" },
+        { "id": "svc-host", "name": "虛擬主機與維護", "role": "Hosting", "desc": "支援 PHP 與 MySQL，定期備份並提供維護方案。", "shape": "tower" },
+        { "id": "svc-photo", "name": "商業攝影", "role": "Photography", "desc": "產品、品牌形象與空間環境攝影。", "shape": "house" }
+      ]
+    },
+    {
+      "id": "promise",
       "number": 10,
-      "name": "文化市集",
-      "summary": "週末市集讓在地創作者與小農被看見。",
-      "tags": ["a"],
+      "name": "服務保證",
+      "summary": "讓客戶安心合作的四個承諾。",
+      "tags": ["c", "s"],
+      "axial": [1, -2],
+      "ground": "land",
+      "items": [
+        { "id": "promise-refund", "name": "不滿意全額退費", "role": "Refund", "desc": "依服務條件，在約定階段內提出申請。", "shape": "dome" },
+        { "id": "promise-own", "name": "網站所有權歸客戶", "role": "Ownership", "desc": "不綁約，可移轉主機、網域或交由其他廠商維護。", "shape": "house" },
+        { "id": "promise-warranty", "name": "永久保固服務", "role": "Warranty", "desc": "提供網站程式碼 bug 永久保固。", "shape": "tower" },
+        { "id": "promise-license", "name": "使用正版授權圖庫", "role": "Licensed", "desc": "網站使用的圖片皆為正版授權。", "shape": "grove" }
+      ]
+    },
+    {
+      "id": "works-corp",
+      "number": 11,
+      "name": "作品：企業形象",
+      "summary": "上市櫃企業、科技業與基金會的品牌形象網站。",
+      "tags": ["w"],
+      "axial": [-1, 2],
+      "ground": "plaza",
+      "items": [
+        { "id": "w-kd", "name": "KD 科定企業", "role": "上市櫃", "desc": "企業形象網站。", "shape": "tower", "url": "https://www.grnet.com.tw/KD%E7%A7%91%E5%AE%9A%E4%BC%81%E6%A5%AD%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8-%E4%B8%8A%E5%B8%82%E6%AB%83-w898" },
+        { "id": "w-tongxin", "name": "同欣電子工業", "role": "上市櫃・電子", "desc": "企業形象網站。", "shape": "tower", "url": "https://www.grnet.com.tw/%E5%90%8C%E6%AC%A3%E9%9B%BB%E5%AD%90%E5%B7%A5%E6%A5%AD-%E4%B8%8A%E5%B8%82%E6%AB%83-w1351" },
+        { "id": "w-brogent", "name": "智崴資訊", "role": "上市櫃・科技", "desc": "企業形象網站。", "shape": "dome", "url": "https://www.grnet.com.tw/%E6%99%BA%E5%B4%B4%E8%B3%87%E8%A8%8A-%E4%B8%8A%E5%B8%82%E6%AB%83-w924" },
+        { "id": "w-quanta", "name": "廣達文教基金會", "role": "基金會", "desc": "廣達集團文教基金會網站。", "shape": "hall", "url": "https://www.grnet.com.tw/%E5%BB%A3%E9%81%94%E9%9B%86%E5%9C%98-%E5%BB%A3%E9%81%94%E6%96%87%E6%95%99%E5%9F%BA%E9%87%91%E6%9C%83-%E4%B8%8A%E5%B8%82%E6%AB%83-w1108" },
+        { "id": "w-liwei", "name": "立威科技", "role": "科技業", "desc": "企業形象網站。", "shape": "house", "url": "https://www.grnet.com.tw/%E7%AB%8B%E5%A8%81%E7%A7%91%E6%8A%80-w1123" }
+      ]
+    },
+    {
+      "id": "works-brand",
+      "number": 12,
+      "name": "作品：品牌與食品",
+      "summary": "食品、餐飲與酒類品牌的形象與產品網站。",
+      "tags": ["w"],
       "axial": [1, 1],
       "ground": "sand",
       "items": [
-        { "id": "market-stall", "name": "創作者攤位", "desc": "公開抽籤分配，優先給在地品牌。", "shape": "house" },
-        { "id": "market-stage", "name": "街頭表演舞台", "desc": "開放街頭藝人線上登記演出時段。", "shape": "dome" },
-        { "id": "market-farm", "name": "小農專區", "desc": "產地直送，減少中間運輸。", "shape": "grove", "tag": "s" }
+        { "id": "w-kavalan", "name": "金車 KAVALAN 噶瑪蘭威士忌", "role": "酒類品牌", "desc": "品牌網站。", "shape": "tower", "url": "https://www.grnet.com.tw/%E9%87%91%E8%BB%8A%E9%9B%86%E5%9C%98-KAVALAN%E5%99%B6%E7%91%AA%E8%98%AD%E5%A8%81%E5%A3%AB%E5%BF%8C-w1156" },
+        { "id": "w-buckskin", "name": "金車 Buckskin 柏克金啤酒", "role": "酒類品牌", "desc": "品牌網站。", "shape": "house", "url": "https://www.grnet.com.tw/%E9%87%91%E8%BB%8A%E9%9B%86%E5%9C%98-Buckskin%E6%9F%8F%E5%85%8B%E9%87%91%E5%95%A4%E9%85%92-w1043" },
+        { "id": "w-tanzuo", "name": "碳佐麻里", "role": "餐飲", "desc": "餐飲品牌網站。", "shape": "dome", "url": "https://www.grnet.com.tw/%E7%A2%B3%E4%BD%90%E9%BA%BB%E9%87%8C-w1151" },
+        { "id": "w-wutao", "name": "悟饕池上飯包", "role": "餐飲", "desc": "餐飲品牌網站。", "shape": "house", "url": "https://www.grnet.com.tw/%E6%82%9F%E9%A5%95%E6%B1%A0%E4%B8%8A%E9%A3%AF%E5%8C%85-w1075" },
+        { "id": "w-xiangyuan", "name": "薌園生技食品", "role": "食品", "desc": "食品品牌網站。", "shape": "grove", "url": "https://www.grnet.com.tw/%E8%96%8C%E5%9C%92%E7%94%9F%E6%8A%80%E9%A3%9F%E5%93%81-w1139" }
+      ]
+    },
+    {
+      "id": "works-life",
+      "number": 13,
+      "name": "作品：生活與公共",
+      "summary": "旅宿、醫療、居家與公部門平台網站。",
+      "tags": ["w"],
+      "axial": [0, 2],
+      "ground": "land",
+      "items": [
+        { "id": "w-hotel", "name": "君達集團 秧悅美地度假酒店", "role": "旅遊飯店", "desc": "度假酒店網站。", "shape": "hall", "url": "https://www.grnet.com.tw/%E5%90%9B%E9%81%94%E9%9B%86%E5%9C%98-%E7%A7%A7%E6%82%A6%E7%BE%8E%E5%9C%B0%E5%BA%A6%E5%81%87%E9%85%92%E5%BA%97-w1032" },
+        { "id": "w-dental", "name": "國泰聯合牙醫診所", "role": "醫療診所", "desc": "診所網站。", "shape": "dome", "url": "https://www.grnet.com.tw/%E5%9C%8B%E6%B3%B0%E8%81%AF%E5%90%88%E7%89%99%E9%86%AB%E8%A8%BA%E6%89%80-w1586" },
+        { "id": "w-order", "name": "Order 歐德系統傢俱", "role": "居家", "desc": "品牌網站。", "shape": "house", "url": "https://www.grnet.com.tw/Order%E6%AD%90%E5%BE%B7%E7%B3%BB%E7%B5%B1%E5%82%A2%E5%85%B7-w735" },
+        { "id": "w-museum", "name": "菌寶貝博物館", "role": "觀光工廠", "desc": "博物館網站。", "shape": "tower", "url": "https://www.grnet.com.tw/%E8%8F%8C%E5%AF%B6%E8%B2%9D%E5%8D%9A%E7%89%A9%E9%A4%A8-%E5%B3%BB%E8%83%BD%E7%A7%91%E6%8A%80-w1338" },
+        { "id": "w-climate", "name": "高雄市氣候變遷調適韌性平台", "role": "政府機關", "desc": "配合視覺進行切版。", "shape": "grove", "url": "https://www.grnet.com.tw/%E9%AB%98%E9%9B%84%E5%B8%82%E6%B0%A3%E5%80%99%E8%AE%8A%E9%81%B7%E8%AA%BF%E9%81%A9%E9%9F%8C%E6%80%A7%E5%B9%B3%E5%8F%B0-%E9%85%8D%E5%90%88%E8%A6%96%E8%A6%BA-%E5%88%87%E7%89%88-w1550" }
       ]
     }
   ],
   "links": [
-    { "id": "L1", "from": "hub", "to": ["transit", "care", "library", "startup"], "text": "市民中心串起各項服務的入口" },
-    { "id": "L2", "from": "energy", "to": ["transit", "startup", "safety"], "text": "綠電供應電動公車、創業基地與避難據點" },
-    { "id": "L3", "from": "park", "to": ["river", "safety"], "text": "公園綠地平時休憩，災時兼作滯洪與避難空間" },
-    { "id": "L4", "from": "library", "to": ["startup", "care"], "text": "圖書館開設青年創業與長輩數位課程" },
-    { "id": "L5", "from": "safety", "to": ["care"], "text": "災時優先照顧行動不便的長輩" },
-    { "id": "L6", "from": "market", "to": ["river", "startup"], "text": "週末市集帶動河濱與青創人潮" },
-    { "id": "L7", "from": "transit", "to": ["river", "market"], "text": "接駁路線延伸到河濱與市集" }
+    { "id": "L1", "from": "hq", "to": ["vision", "leaders", "services"], "text": "總部是一切的起點：願景、經營與服務都從這裡出發" },
+    { "id": "L2", "from": "leaders", "to": ["cs", "planning", "design", "dev"], "text": "經營團隊統籌客服、企劃、設計、程式四個部門" },
+    { "id": "L3", "from": "cs", "to": ["planning"], "text": "客服接案、確認需求後，交由企劃規劃網站架構" },
+    { "id": "L4", "from": "planning", "to": ["design"], "text": "企劃書完成後，進入視覺初稿與內頁切版" },
+    { "id": "L5", "from": "design", "to": ["dev"], "text": "切版完成後，由程式部串接功能與後台" },
+    { "id": "L6", "from": "process", "to": ["cs", "planning"], "text": "七個流程階段由各部門接力完成" },
+    { "id": "L7", "from": "dev", "to": ["services"], "text": "程式部負責金流、系統整合與主機維護" },
+    { "id": "L8", "from": "design", "to": ["works-corp", "works-brand", "works-life"], "text": "每件作品都從設計部的初稿開始" },
+    { "id": "L9", "from": "vision", "to": ["promise"], "text": "品質至上、服務第一，具體落實為四項服務保證" },
+    { "id": "L10", "from": "services", "to": ["works-brand"], "text": "電商與品牌網站的實際成果" }
   ]
 }

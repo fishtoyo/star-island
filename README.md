@@ -1,6 +1,8 @@
-# 星島 STAR ISLAND
+# 鉅潞島 GRNET ISLAND
 
-用 3D 六角島嶼呈現「主題」與「主題之間的關係」。每一座島是一個主題，島上的建築是細項，島與島之間的弧線是協作關係。
+用 3D 六角島嶼介紹鉅潞科技：公司願景、團隊同仁、案件流程、服務項目與作品集。每一座島是一個主題，島上的建築／人物是細項，島與島之間的弧線是協作關係。
+
+目前內容整理自 [鉅潞科技官網](https://www.grnet.com.tw/)，僅供示範，可直接在 `assets/data/data.json` 修改。
 
 架構參考 [HEART 政策島](https://puma.taipei/heart-island) 的做法：純靜態網站、原生 ES Modules，用 importmap 載入 Three.js，內容放在 JSON。沒有建置步驟，可以直接放上 GitHub Pages。
 
@@ -33,7 +35,7 @@ assets/vendor/three/       Three.js r170（MIT License）
 
 所有顏色（介面 + 3D）都是 `assets/css/theme.css` 裡的 CSS 變數：
 
-- **改現有色系**：直接改 `:root` 那組的色碼，例如 `--c-primary`。
+- **改現有色系**：直接改 `:root` 那組（預設「鉅潞紅」）的色碼，例如 `--c-primary`。內建色系：鉅潞紅、珊瑚、海洋、夜空。
 - **新增色系**：複製一組 `:root[data-theme="ocean"] { … }`，改成新的 id 和顏色，再到 `assets/js/app.js` 最上方的 `THEMES` 加一行 `{ id: "新id", name: "顯示名稱" }`。
 - 網頁右上的「色系」按鈕可以切換，會記住使用者上次的選擇。
 
@@ -42,7 +44,7 @@ assets/vendor/three/       Three.js r170（MIT License）
 | 變數 | 用途 |
 |---|---|
 | `--c-primary` | 主色（按鈕、編號、強調） |
-| `--tag-s / -t / -a / -r` | 四個標籤的顏色，也是建築的顏色 |
+| `--tag-c / -t / -s / -w` | 四個標籤（公司、團隊、服務、作品）的顏色，也是建築與人物的顏色 |
 | `--c-bg-top / --c-bg-bottom / --c-fog` | 背景漸層；`--c-fog` 要和 `--c-bg-bottom` 一致，水面才會自然融入背景 |
 | `--c-water / --c-land / --c-sand / --c-plaza / --c-cliff` | 水面、草地、沙地、廣場、島的側面 |
 | `--c-wall / --c-roof / --c-tree / --c-link` | 牆面、屋頂、樹、協作線 |
@@ -53,26 +55,28 @@ assets/vendor/three/       Three.js r170（MIT License）
 ```jsonc
 {
   "meta":  { "title", "kicker", "headline", "lead", "note" },
-  "tags":  [{ "id": "s", "letter": "S", "name": "永續", "en": "Sustainable" }],
+  "tags":  [{ "id": "c", "letter": "C", "name": "公司", "en": "Company" }],
   "islands": [{
-    "id": "hub",               // 英數字，也會用在網址 #hub
+    "id": "hq",                // 英數字，也會用在網址 #hq
     "number": 1,
-    "name": "市民中心",
+    "name": "鉅潞總部",
     "summary": "一句話說明",
-    "tags": ["t", "a"],         // 第一個標籤決定島的主色
+    "tags": ["c"],              // 第一個標籤決定島的主色
     "axial": [0, 0],            // 六角座標 [q, r]，相鄰位置見下方
     "ground": "plaza",          // land | sand | plaza
     "items": [{
-      "id": "hub-desk", "name": "名稱", "desc": "說明",
-      "shape": "hall",          // tower | house | dome | hall | turbine | grove
-      "tag": "a"                // 可省略，省略時用島的第一個標籤
+      "id": "hq-tainan", "name": "名稱", "desc": "說明",
+      "role": "職稱或副標",       // 可省略
+      "url": "https://…",        // 可省略，有填會出現「查看作品」連結
+      "shape": "hall",          // tower | house | dome | hall | turbine | grove | person | flag
+      "tag": "c"                // 可省略，省略時用島的第一個標籤
     }]
   }],
-  "links": [{ "id": "L1", "from": "hub", "to": ["transit", "care"], "text": "關係說明" }]
+  "links": [{ "id": "L1", "from": "hq", "to": ["vision", "leaders"], "text": "關係說明" }]
 }
 ```
 
-**六角座標**：`[q, r]` 的六個鄰居是 `[q+1, r]`、`[q-1, r]`、`[q, r+1]`、`[q, r-1]`、`[q+1, r-1]`、`[q-1, r+1]`。每座島的細項建議 1～6 個。
+**六角座標**：`[q, r]` 的六個鄰居是 `[q+1, r]`、`[q-1, r]`、`[q, r+1]`、`[q, r-1]`、`[q+1, r-1]`、`[q-1, r+1]`。每座島的細項建議 1～6 個；人物（person）、旗子（flag）體積小，可以放到 8 個。
 
 ## 部署到 GitHub Pages
 
@@ -84,5 +88,5 @@ assets/vendor/three/       Three.js r170（MIT License）
 
 ## 網址參數
 
-- `#hub`：開啟時直接選取某座島
+- `#hq`：開啟時直接選取某座島
 - `?quality=medium`／`?quality=low`：強制降低畫質（手機預設為 medium）

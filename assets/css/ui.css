@@ -456,6 +456,30 @@ button {
   color: var(--ui-muted);
 }
 
+.items li {
+  display: grid;
+  gap: 4px;
+}
+
+.items .item-role {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ui-accent);
+}
+
+.item-link {
+  justify-self: end;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ui-accent);
+  text-decoration: none;
+}
+
+.item-link:hover {
+  text-decoration: underline;
+}
+
 .relations strong::before {
   content: "→";
   color: var(--ui-accent);
@@ -609,13 +633,33 @@ button {
     font-size: 16px;
   }
 
+  .brand {
+    min-width: 0;
+  }
+
+  .brand > div {
+    min-width: 0;
+  }
+
   .brand h1 {
-    font-size: 17px;
+    overflow: hidden;
+    font-size: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .modes {
+    flex-shrink: 0;
   }
 
   .mode {
     padding: 6px 10px;
     font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .mode span {
+    display: none;
   }
 
   .toolbar {

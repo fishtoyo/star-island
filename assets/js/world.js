@@ -128,6 +128,30 @@ const SHAPES = {
     g.add(pole, rotor, base);
     return g;
   },
+  person(mat, color, rotors, rng) {
+    const g = new THREE.Group();
+    const body = mesh(new THREE.CylinderGeometry(0.1, 0.14, 0.38, 12), mat(color));
+    body.position.y = 0.19;
+    const head = mesh(new THREE.SphereGeometry(0.11, 14, 10), mat("c-wall"));
+    head.position.y = 0.5;
+    const hair = mesh(new THREE.SphereGeometry(0.115, 14, 8, 0, Math.PI * 2, 0, Math.PI / 2), mat("c-trunk"));
+    hair.position.y = 0.515;
+    hair.rotation.x = -0.25;
+    g.add(body, head, hair);
+    g.scale.setScalar(1.25 + rng() * 0.15);
+    return g;
+  },
+  flag(mat, color) {
+    const g = new THREE.Group();
+    const stone = mesh(new THREE.CylinderGeometry(0.16, 0.2, 0.1, 8), mat("c-cliff", { flatShading: true }));
+    stone.position.y = 0.05;
+    const pole = mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.9, 6), mat("c-wall"));
+    pole.position.y = 0.5;
+    const cloth = mesh(new THREE.BoxGeometry(0.34, 0.22, 0.02), mat(color));
+    cloth.position.set(0.18, 0.82, 0);
+    g.add(stone, pole, cloth);
+    return g;
+  },
   grove(mat, color, rotors, rng) {
     const g = new THREE.Group();
     const pad = mesh(new THREE.CylinderGeometry(0.46, 0.48, 0.05, 20), mat(color));
