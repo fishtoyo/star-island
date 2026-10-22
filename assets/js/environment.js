@@ -24,36 +24,47 @@ export function createEnvironment(scene, palette, { quality, reduced }) {
   }
   scene.add(sun);
 
-  // 低多邊形水面，頂點上下起伏
+  // 低多邊形水面：起伏在 vertex shader 裡計算（GPU），不佔 CPU
+  const uniforms = { uTime: { value: 0 }, uWave: { value: reduced ? 0 : 0.07 }, uSpeed: { value: 1 } };
   const seg = quality === "high" ? 96 : 56;
   const geo = new THREE.PlaneGeometry(220, 220, seg, seg);
   geo.rotateX(-Math.PI / 2);
-  const pos = geo.attributes.position;
-  const water = new THREE.Mesh(
-    geo,
-    palette.mat("c-water", { flatShading: true, roughness: 0.35, metalness: 0.05, transparent: true, opacity: 0.94 }),
-  );
+  const material = palette.mat("c-water", { flatShading: true, roughness: 0.35, metalness: 0.05, transparent: true, opacity: 0.94 });
+  material.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, uniforms);
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", "#include <common>\nuniform float uTime;\nuniform float uWave;\nuniform float uSpeed;")
+      .replace(
+        "#include <begin_vertex>",
+        `#include <begin_vertex>
+        float wt = uTime * uSpeed;
+        transformed.y += (sin(position.x * 0.32 + wt * 0.9) + cos(position.z * 0.27 + wt * 0.7)) * uWave;`,
+      );
+  };
+  const water = new THREE.Mesh(geo, material);
   water.position.y = WATER_Y;
   water.receiveShadow = quality !== "low";
   scene.add(water);
 
+  // 亮度預設讀 theme.css；debug 面板可用 override 暫時覆蓋
+  const override = { sky: null, sun: null };
   const applyLevels = () => {
     scene.fog.color.set(palette.read("c-fog"));
-    hemi.intensity = palette.number("sky-intensity", 1.6);
-    sun.intensity = palette.number("sun-intensity", 2.4);
+    hemi.intensity = override.sky ?? palette.number("sky-intensity", 1.6);
+    sun.intensity = override.sun ?? palette.number("sun-intensity", 2.4);
   };
   applyLevels();
   palette.onRefresh(applyLevels);
 
   return {
+    uniforms,
+    fog: scene.fog,
+    hemi,
+    sun,
+    override,
+    applyLevels,
     update(t) {
-      if (reduced) return;
-      for (let i = 0; i < pos.count; i++) {
-        const x = pos.getX(i),
-          z = pos.getZ(i);
-        pos.setY(i, Math.sin(x * 0.32 + t * 0.9) * 0.07 + Math.cos(z * 0.27 + t * 0.7) * 0.07);
-      }
-      pos.needsUpdate = true;
+      uniforms.uTime.value = t;
     },
   };
 }

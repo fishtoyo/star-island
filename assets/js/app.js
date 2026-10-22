@@ -39,6 +39,16 @@ const quality = params.get("quality") || (narrow() || /Mobi|Android/i.test(navig
 
 const state = { selected: null, hovered: null, tags: new Set(), query: "", showLinks: false, mode: "map" };
 
+// 可調參數：網址加 ?debug 會出現調整面板，可即時修改並複製數值
+const tune = {
+  selectDist: 23, // 選取島嶼時的鏡頭距離（桌機）
+  selectDistMobile: 30, // 同上（手機）
+  hoverLift: 0.22, // 滑鼠移過時島浮起的高度
+  bob: 0.04, // 島嶼漂浮幅度
+  introDuration: 1.2, // 開場每座島升起的秒數
+  tourHold: 4.5, // 導覽時每座島停留的秒數
+};
+
 // ?data=grnet 會改讀 assets/data/grnet.json
 const dataName = /^[a-z0-9-]+$/.test(params.get("data") || "") ? params.get("data") : "data";
 
@@ -203,11 +213,53 @@ $("#btn-reset").addEventListener("click", () => {
   deselect();
 });
 
+// 鍵盤：Esc 關閉，左右方向鍵切換島嶼
 addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return;
-  if (state.mode === "list") setMode("map");
-  else if (state.selected) deselect();
+  if (e.target.closest?.("input, textarea")) return;
+  if (e.key === "Escape") {
+    stopTour();
+    if (state.mode === "list") setMode("map");
+    else if (state.selected) deselect();
+  } else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && islands && state.mode === "map") {
+    const list = data.islands.filter(matches);
+    if (!list.length) return;
+    e.preventDefault();
+    stopTour();
+    const i = list.findIndex((d) => d.id === state.selected);
+    const step = e.key === "ArrowRight" ? 1 : -1;
+    select(list[i < 0 ? (step > 0 ? 0 : list.length - 1) : (i + step + list.length) % list.length].id);
+  }
 });
+
+// ---------- 自動導覽 ----------
+let tour = null;
+function startTour() {
+  const list = data.islands.filter(matches);
+  if (!islands || !list.length) return;
+  setMode("map");
+  deselect();
+  $("#btn-tour").setAttribute("aria-pressed", "true");
+  let i = -1;
+  const step = () => {
+    if (++i >= list.length) return stopTour(true);
+    select(list[i].id);
+    $("#btn-tour").textContent = `停止導覽 ${i + 1}/${list.length}`;
+    tour = setTimeout(step, tune.tourHold * 1000);
+  };
+  $("#btn-tour").textContent = "停止導覽";
+  tour = setTimeout(step, 1200);
+}
+function stopTour(backToOverview = false) {
+  if (tour === null) return;
+  clearTimeout(tour);
+  tour = null;
+  $("#btn-tour").textContent = "導覽";
+  $("#btn-tour").setAttribute("aria-pressed", "false");
+  if (backToOverview) deselect();
+}
+$("#btn-tour").addEventListener("click", () => (tour === null ? startTour() : stopTour()));
+// 使用者自己操作時就停止導覽
+addEventListener("pointerdown", (e) => !e.target.closest("#btn-tour") && stopTour(), true);
 
 // ---------- 3D 場景 ----------
 let palette, islands, camera, controls, flyTarget, overview;
@@ -281,7 +333,7 @@ function focusIsland(isl) {
   const dir = camera.position.clone().sub(controls.target).normalize();
   dir.y = Math.max(dir.y, 0.6);
   dir.normalize();
-  const dist = narrow() ? 30 : 23;
+  const dist = narrow() ? tune.selectDistMobile : tune.selectDist;
   const look = target.clone();
   // 讓出面板的位置：桌機往右推（島偏左），手機往鏡頭方向推（島偏上）
   const flat = new THREE.Vector3(dir.x, 0, dir.z).normalize();
@@ -331,6 +383,10 @@ try {
     el.addEventListener("click", () => (state.selected === def.id ? deselect() : select(def.id)));
     el.addEventListener("pointerenter", () => (state.hovered = def.id));
     el.addEventListener("pointerleave", () => (state.hovered = null));
+    // 開場：由中心往外依序升起
+    isl.delay = 0.2 + isl.group.position.length() * 0.06;
+    isl.rise = reduced ? 1 : 0;
+    if (!reduced) el.classList.add("is-rising");
     isl.label = new CSS2DObject(el);
     isl.label.position.set(0, TOP + 2.1, 0);
     isl.body.add(isl.label);
@@ -364,6 +420,7 @@ try {
     renderer.domElement.style.cursor = state.hovered ? "pointer" : "";
   });
   renderer.domElement.addEventListener("pointerdown", (e) => (down = [e.clientX, e.clientY]));
+  renderer.domElement.addEventListener("wheel", () => stopTour(), { passive: true });
   renderer.domElement.addEventListener("pointerup", (e) => {
     if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 6) return;
     const id = pick(e);
@@ -391,7 +448,15 @@ try {
   const clock = new THREE.Clock();
   const relSet = () => new Set(state.selected ? related(state.selected).map((r) => r.other) : []);
 
+  // 省電：清單模式蓋住畫面時不重繪；15 秒沒操作時降為半速
+  let lastInput = performance.now();
+  let skip = false;
+  for (const ev of ["pointerdown", "pointermove", "wheel", "keydown"]) addEventListener(ev, () => (lastInput = performance.now()), { passive: true });
+
   renderer.setAnimationLoop(() => {
+    if (state.mode === "list") return;
+    const idle = performance.now() - lastInput > 15000 && !flyTarget && tour === null;
+    if (idle && (skip = !skip)) return;
     const dt = Math.min(clock.getDelta(), 0.05);
     const t = clock.elapsedTime;
     const k = 1 - Math.exp(-dt * 8);
@@ -400,9 +465,14 @@ try {
     for (const isl of islands.values()) {
       const id = isl.def.id;
       const on = matches(isl.def);
-      const lift = !on ? -0.3 : id === state.selected ? 0.35 : id === state.hovered ? 0.22 : 0;
+      const lift = !on ? -0.3 : id === state.selected ? 0.35 : id === state.hovered ? tune.hoverLift : 0;
       isl.lift += (lift - isl.lift) * k;
-      isl.body.position.y = isl.lift + (reduced ? 0 : Math.sin(t * 0.8 + isl.phase) * 0.04);
+      if (isl.rise < 1) {
+        isl.rise = THREE.MathUtils.clamp((t - isl.delay) / tune.introDuration, 0, 1);
+        if (isl.rise > 0.85) isl.label.element.classList.remove("is-rising");
+      }
+      const rise = 1 - Math.pow(1 - isl.rise, 3);
+      isl.body.position.y = isl.lift + (reduced ? 0 : Math.sin(t * 0.8 + isl.phase) * tune.bob) + (rise - 1) * 3;
 
       const dim = !on ? 1 : state.selected && id !== state.selected && !rel.has(id) ? 0.55 : 0;
       if (Math.abs(dim - isl.owner.dim) > 0.003) {
@@ -444,6 +514,8 @@ try {
     renderer.render(scene, camera);
     labelRenderer.render(scene, camera);
   });
+
+  if (params.has("debug")) openDebugPanel({ renderer, env });
 } catch (err) {
   console.error(err);
   islands = null;
@@ -456,3 +528,57 @@ refreshView();
 const initial = decodeURIComponent(location.hash.slice(1));
 if (islandDefs.has(initial)) select(initial);
 requestAnimationFrame(() => setTimeout(() => $("#loading").classList.add("is-done"), 300));
+
+// ---------- 調整面板（?debug） ----------
+async function openDebugPanel({ renderer, env }) {
+  const { default: GUI } = await import("../vendor/lil-gui/lil-gui.esm.min.js");
+  const gui = new GUI({ title: "調整面板" });
+  // 放左側，避開右上工具列與右側詳情面板
+  Object.assign(gui.domElement.style, { top: "128px", left: "20px", right: "auto" });
+
+  const cam = gui.addFolder("鏡頭");
+  cam.add(camera, "fov", 20, 60, 1).name("視角 fov").onChange(() => {
+    camera.updateProjectionMatrix();
+    overview = overviewPose();
+  });
+  cam.add(tune, "selectDist", 10, 50, 0.5).name("選取距離・桌機");
+  cam.add(tune, "selectDistMobile", 10, 60, 0.5).name("選取距離・手機");
+  cam.add(controls, "autoRotate").name("自動旋轉");
+  cam.add(controls, "autoRotateSpeed", 0.1, 3, 0.1).name("旋轉速度");
+
+  const isle = gui.addFolder("島嶼與導覽");
+  isle.add(tune, "hoverLift", 0, 1, 0.01).name("滑過浮起高度");
+  isle.add(tune, "bob", 0, 0.3, 0.01).name("漂浮幅度");
+  isle.add(tune, "introDuration", 0.3, 4, 0.1).name("升起秒數");
+  isle.add(tune, "tourHold", 1, 10, 0.5).name("導覽停留秒數");
+
+  const light = gui.addFolder("光線與水面");
+  const lv = { sky: env.hemi.intensity, sun: env.sun.intensity };
+  light.add(lv, "sky", 0, 4, 0.05).name("環境光").onChange((v) => ((env.override.sky = v), env.applyLevels()));
+  light.add(lv, "sun", 0, 6, 0.05).name("日光").onChange((v) => ((env.override.sun = v), env.applyLevels()));
+  light.add(renderer, "toneMappingExposure", 0.3, 2, 0.05).name("曝光");
+  light.add(env.fog, "near", 0, 150, 1).name("霧起點");
+  light.add(env.fog, "far", 20, 300, 1).name("霧終點");
+  light.add(env.uniforms.uWave, "value", 0, 0.4, 0.01).name("浪高");
+  light.add(env.uniforms.uSpeed, "value", 0, 4, 0.1).name("浪速");
+
+  const round = (v) => Math.round(v * 100) / 100;
+  const vec = (v) => v.toArray().map(round);
+  const actions = {
+    copy() {
+      const values = {
+        tune,
+        camera: { fov: camera.fov, position: vec(camera.position), target: vec(controls.target) },
+        light: { sky: lv.sky, sun: lv.sun, exposure: renderer.toneMappingExposure, fogNear: env.fog.near, fogFar: env.fog.far },
+        water: { wave: env.uniforms.uWave.value, speed: env.uniforms.uSpeed.value },
+      };
+      const text = JSON.stringify(values, null, 2);
+      console.log(text);
+      navigator.clipboard?.writeText(text).then(
+        () => (copyBtn.name("已複製 ✓"), setTimeout(() => copyBtn.name("複製數值"), 1500)),
+        () => copyBtn.name("請看主控台"),
+      );
+    },
+  };
+  const copyBtn = gui.add(actions, "copy").name("複製數值");
+}

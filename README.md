@@ -37,6 +37,8 @@ assets/js/world.js         六角島、建築造型、協作線
 assets/js/environment.js   水面、燈光、霧
 assets/js/palette.js       把 CSS 變數套到 3D 材質
 assets/vendor/three/       Three.js r170（MIT License）
+assets/vendor/lil-gui/     lil-gui 0.19.2，調整面板用（MIT License）
+assets/og.jpg              社群分享預覽圖（1200×630）
 ```
 
 ## 改色系
@@ -96,8 +98,30 @@ assets/vendor/three/       Three.js r170（MIT License）
 
 所有路徑都用相對路徑（`./assets/...`），所以放在子路徑底下也能正常運作。
 
+## 操作
+
+- 拖曳旋轉、滾輪縮放，點一座島打開詳情
+- **導覽**按鈕：依序飛過每座島（停留秒數可在調整面板改）；自己操作時會自動停止
+- 鍵盤：`←` `→` 切換島嶼，`Esc` 關閉
+- 「清單」模式提供完整的鍵盤操作
+
+## 調整面板（`?debug`）
+
+網址加上 `?debug`（例如 `http://localhost:8000/?debug`）會在左側出現調整面板，可以用滑桿即時調整鏡頭視角、選取距離、漂浮幅度、升起秒數、光線、霧、浪高與浪速。調好後按「**複製數值**」，把數值貼到：
+
+- `assets/js/app.js` 開頭的 `tune`（鏡頭距離、漂浮、導覽秒數）
+- `assets/css/theme.css` 的 `--sky-intensity`／`--sun-intensity`（光線）
+- `assets/js/environment.js`（霧、浪）
+
+## 效能
+
+- 水面起伏在 GPU（vertex shader）計算
+- 「清單」模式蓋住畫面時暫停 3D 繪圖；15 秒沒有操作時降為半速
+- 手機自動降低解析度與陰影品質
+
 ## 網址參數
 
 - `#me`：開啟時直接選取某座島
 - `?data=grnet`：改讀 `assets/data/grnet.json`（可和 `#` 一起用，例如 `?data=grnet#design`）
 - `?quality=medium`／`?quality=low`：強制降低畫質（手機預設為 medium）
+- `?debug`：開啟調整面板
